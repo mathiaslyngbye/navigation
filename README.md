@@ -1,23 +1,18 @@
-ROS Navigation Stack
-====================
+# ROS Navigation Stack
 
 A 2D navigation stack that takes in information from odometry, sensor
 streams, and a goal pose and outputs safe velocity commands that are sent
 to a mobile base.
 
- * AMD64 Debian Job Status: [![Build Status](http://build.ros.org/buildStatus/icon?job=Kbin_uX64__navigation__ubuntu_xenial_amd64__binary)](http://build.ros.org/view/Kbin_uX64/job/Kbin_uX64__navigation__ubuntu_xenial_amd64__binary/)
+This fork aims to seperate the global planner from the move base module. This is done with the intention running move base in seperate containers, making it possible to outsource global planning to a cloud service. 
 
-Related stacks:
+Due to compatibility, this fork assumes Ubuntu 16.04 (Xenial Xerus) and ROS Kinetic. As such, only the kinetic-devel branch is developed upon. 
 
- * http://github.com/ros-planning/navigation_msgs (new in Jade+)
- * http://github.com/ros-planning/navigation_tutorials
- * http://github.com/ros-planning/navigation_experimental
+Most testing will be aimed towards a simulated TurtleBot3 burger model. Setup of TurtleBot3 environment, mapping, and navigation may be found below. 
 
-For discussion, please check out the
-https://groups.google.com/group/ros-sig-navigation mailing list.
 
-# TurtleBot3_Simulation
-This is the initial project for the TurtleBot3 navigation stack simulations.
+# TurtleBot3
+Step by step setup for the TurtleBot3 navigation stack simulations.
 
 ## Installation
 The following steps assume Ubuntu 16.04 (Xenial Xerus) as the base operating system.
@@ -86,13 +81,17 @@ rosrun map_server map_saver -f <your map name>
 A running gazebo robot/environment and a generated map file of said environment (see previous sections).
 
 ### Setup
+Export your robot model.
+``` bash
+export TURTLEBOT3_MODEL=burger
+```
 Export your generated map file.
 ``` bash
 export TURTLEBOT3_MAP_FILE=/tmp/my_map.yaml
 ```
 Alternately,
 ``` bash
-export TURTLEBOT3_MAP_FILE:=`rospack find turtlebot3_navigation`/maps/my_map.yaml
+export TURTLEBOT3_MAP_FILE=`rospack find turtlebot3_navigation`/maps/my_map.yaml
 ```
 Good practice for frequently used maps may look like the option 2 (which obviously requires the maps to be located at the given location).
 
