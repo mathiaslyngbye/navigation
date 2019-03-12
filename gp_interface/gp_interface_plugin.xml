@@ -1,5 +1,0 @@
-<library path="lib/libgp_interface_lib">
-    <class name="gp_interface/GPInterface" type="gp_interface::GPInterface" base_class_type="nav_core::BaseGlobalPlanner">
-    <description>This is a global planner interface plugin.</description>
-    </class>
-</library>

@@ -1,6 +1,5 @@
 #include <pluginlib/class_list_macros.h>
 #include <gp_interface/gp_interface.h>
-#include <navfn/MakeNavPlan.h>
 
 //register this planner as a BaseGlobalPlanner plugin
 PLUGINLIB_EXPORT_CLASS(gp_interface::GPInterface, nav_core::BaseGlobalPlanner)
@@ -27,24 +26,24 @@ namespace gp_interface {
 
     bool GPInterface::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan)
     {
-        ros::NodeHandle n;
-        ros::ServiceClient client = n.serviceClient<navfn::MakeNavPlan>("MakeNavPlan");
+        plan.push_back(start);
         
-        navfn::MakeNavPlan srv;
-        
-        srv.request.start = start;
-        srv.request.goal = goal;
-        
-        if(client.call(srv))
+        for (int i=0; i<20; i++)
         {
-            ROS_INFO("GPInterface succesfully obtained plan from navfn!");
-            plan = srv.response.path;
+            geometry_msgs::PoseStamped new_goal = goal;
+            tf::Quaternion goal_quat = tf::createQuaternionFromYaw(1.54);
+
+            new_goal.pose.position.x = -2.5+(0.05*i);
+            new_goal.pose.position.y = -3.5+(0.05*i);
+
+            new_goal.pose.orientation.x = goal_quat.x();
+            new_goal.pose.orientation.y = goal_quat.y();
+            new_goal.pose.orientation.z = goal_quat.z();
+            new_goal.pose.orientation.w = goal_quat.w();
+
+            plan.push_back(new_goal);
         }
-        else
-        {
-            ROS_ERROR("GPInterface failed to obtain plan from navfn!");
-        }
-        
+        plan.push_back(goal);
         return true;
     }
 };
