@@ -14,7 +14,8 @@ using std::string;
 
 namespace gp_interface {
 
-    class GPInterface : public nav_core::BaseGlobalPlanner {
+    class GPInterface : public nav_core::BaseGlobalPlanner 
+    {
     public:
     
         GPInterface();
@@ -26,6 +27,14 @@ namespace gp_interface {
                       const geometry_msgs::PoseStamped& goal, 
                       std::vector<geometry_msgs::PoseStamped>& plan
                      );
+                     
+    private:
+        costmap_2d::Costmap2DROS* costmap_ros_;
+        costmap_2d::Costmap2D* costmap_;
+        bool initialized_;
+        unsigned int width_;
+        unsigned int height_;
+        unsigned int cells_;
     };
 };  
 #endif
