@@ -1,7 +1,0 @@
-<launch>
-  <!-- Arguments -->
-  <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
-
-  <!-- navfn-->
-  <node pkg="navfn" name="navfn_node" type="navfn_node" args="$(arg map_file)"/>
-</launch>
