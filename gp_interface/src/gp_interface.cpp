@@ -35,7 +35,7 @@ namespace gp_interface {
         ---
         
         */
-
+        
         if(!initialized_)
         {
             // Initialize the costmap_ros_ attribute to the parameter.
@@ -65,14 +65,14 @@ namespace gp_interface {
                         my++;
                     }
                     mx = i % width_;
-                    costs_[i] = costmap_->getCost(mx,my);
                     costs_.push_back(costmap_->getCost(mx,my));
                 }
             }
             
             // Configure service client
-            ros::NodeHandle n;
-            ros::ServiceClient client = n.serviceClient<navfn::SetCostmap>("SetCostmap");
+            //ros::init();
+            ros::NodeHandle nh;
+            ros::ServiceClient client = nh.serviceClient<navfn::SetCostmap>("/global_planner/costmap/set_parameters");
             
             // Create service and set request variables
             navfn::SetCostmap srv;
@@ -80,6 +80,8 @@ namespace gp_interface {
             srv.request.height = height_;
             srv.request.width = width_;
 
+            // This service does not exist yet.
+            /*
             // Call service
             if(client.call(srv))
             {
@@ -91,7 +93,8 @@ namespace gp_interface {
             }
             
             initialized_ = true; 
-        }  
+            */
+        }
         else
         {
             ROS_WARN("GPInterface has already been initialized... doing nothing");
@@ -100,7 +103,7 @@ namespace gp_interface {
 
     bool GPInterface::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan)
     {
-        /*  SetCostmap.srv
+        /*  MakeNavPlan.srv
 
         geometry_msgs/PoseStamped start
         geometry_msgs/PoseStamped goal
@@ -115,7 +118,8 @@ namespace gp_interface {
         
         // Create service client
         ros::NodeHandle n;
-        ros::ServiceClient client = n.serviceClient<navfn::MakeNavPlan>("MakeNavPlan");
+        //ros::ServiceClient client = n.serviceClient<navfn::MakeNavPlan>("MakeNavPlan");
+        ros::ServiceClient client = n.serviceClient<navfn::MakeNavPlan>("/global_planner/make_plan");
         
         // Create service and set service variables
         navfn::MakeNavPlan srv;
@@ -123,8 +127,8 @@ namespace gp_interface {
         srv.request.goal = goal;
         
         // Create variables for containing responses
-        unsigned int plan_found_;
-        string error_message_;
+        unsigned int plan_found_ = false;
+        std::string error_message_ = "";
         
         // Call service
         if(client.call(srv))
@@ -150,7 +154,7 @@ namespace gp_interface {
         }
         else
         {
-            ROS_WARN("GPInterface was unable to obtain a plan. The following error message was received from navfn_node:\n%s", error_message_.c_str());
+            ROS_WARN("GPInterface was unable to obtain a plan. The following error message was received from navfn_node: %s", error_message_.c_str());
             return false;
         }
     }
