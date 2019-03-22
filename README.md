@@ -10,6 +10,10 @@ Due to compatibility, this fork assumes Ubuntu 16.04 (Xenial Xerus) and ROS Kine
 
 Most testing will be aimed towards a simulated TurtleBot3 burger model. Setup of TurtleBot3 environment, mapping, and navigation may be found below. 
 
+## Notes to self:
+ROS questions regarding similar problems to ours:
+https://answers.ros.org/question/289078/global-planners-costmap-empty/
+https://answers.ros.org/question/231995/how-to-use-the-functions-of-navigation-stack-separately/
 
 # TurtleBot3
 Step by step setup for the TurtleBot3 navigation stack simulations.
