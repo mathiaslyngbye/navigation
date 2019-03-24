@@ -39,6 +39,6 @@
 
         <!-- ROS Parameters -->
         <rosparam file="$(find gp_launch)/param/costmap_common_params.yaml" command="load" />
-        <rosparam file="$(find gp_launch)/param/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find gp_launch)/param/global_costmap_params_custom.yaml" command="load" />
     </node>  
 </launch>
