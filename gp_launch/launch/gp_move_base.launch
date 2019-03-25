@@ -12,7 +12,7 @@
     <rosparam file="$(find gp_launch)/param/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find gp_launch)/param/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find gp_launch)/param/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find gp_launch)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find gp_launch)/param/global_costmap_params_move_base.yaml" command="load" />
     <rosparam file="$(find gp_launch)/param/move_base_params.yaml" command="load" />
     <rosparam file="$(find gp_launch)/param/dwa_local_planner_params_$(arg model).yaml" command="load" />
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
