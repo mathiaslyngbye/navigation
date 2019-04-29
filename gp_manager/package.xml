@@ -1,0 +1,29 @@
+<package>
+  <name>gp_manager</name>
+  <version>1.0.0</version>
+  <description>
+    The gp_manager spawns global planners locally, if they do not exist on the ROS network.
+  </description>
+  <license>Apache 2.0</license>
+  <author email="malyn16@student.sdu.dk">Mathias A. Lyngbye</author>
+  <maintainer email="malyn16@student.sdu.dk">Mathias A. Lyngbye</maintainer>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <build_depend>tf</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+
+  <run_depend>tf</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>move_base</run_depend>
+  <run_depend>map_server</run_depend>  
+  <run_depend>amcl</run_depend>
+  <run_depend>gmapping</run_depend>
+  <run_depend>turtlebot_bringup</run_depend>
+  <run_depend>dwa_local_planner</run_depend>
+
+</package>
+
