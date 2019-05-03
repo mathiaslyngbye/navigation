@@ -46,7 +46,6 @@ int main(int argc, char **argv)
                 if(v[i] == "/alive")
                 {
                     alive_exists = true;
-                    break;
                 }
                 else if(v[i] == "/global_planner")
                 {
@@ -62,9 +61,11 @@ int main(int argc, char **argv)
             if(!alive_exists_prev)
             {
                 ROS_INFO("Removing local global_planners...");
-  
-                // Oh god please dont look at me.
-                command = "kubectl exec -it $(kubectl get pods -o=name | grep " + pod_name + " | sed \"s/^.\\{4\\}//\") -- bash -c \"source root/catkin_ws/devel/setup.bash && rosnode kill global_planner\" && kubectl delete -f " + pod_location + pod_file;
+                
+                std::string cmd1 =  "kubectl exec -it $(kubectl get pods -o=name | grep " + pod_name + 
+                                    " | sed \"s/^.\\{4\\}//\") -- bash -c \"source root/catkin_ws/devel/setup.bash && rosnode kill global_planner\"";
+                std::string cmd2 =  "kubectl delete -f " + pod_location + pod_file;
+                command = cmd1 + " && " + cmd2;
                 system(command.c_str());
             }
             else
@@ -99,7 +100,9 @@ int main(int argc, char **argv)
             system(command.c_str());
             ros::Duration(10).sleep();
         }
-	    */ 
+	    */
+
+        //ROS_INFO("You reached the end of the loop! Congrats!"); 
         ros::spinOnce();
         
 	    // Sleep to match loop rate
