@@ -11,7 +11,8 @@ PLUGINLIB_EXPORT_CLASS(gp_interface::GPInterface, nav_core::BaseGlobalPlanner)
 using namespace std;
 
 //Default Constructor
-namespace gp_interface {
+namespace gp_interface 
+{
 
     GPInterface::GPInterface()
     {
@@ -25,17 +26,7 @@ namespace gp_interface {
     }
 
     void GPInterface::initialize(std::string name, costmap_2d::Costmap2DROS* costmap_ros)
-    {
-    
-        /*  SetCostmap.srv
-
-        uint8[] costs
-        uint16 height
-        uint16 width
-        ---
-        
-        */
-        
+    {      
         if(!initialized_)
         {
             // Initialize the costmap_ros_ attribute to the parameter.
@@ -44,6 +35,10 @@ namespace gp_interface {
             // Initialize the costmap_ from costmap_ros_
             costmap_ = costmap_ros_->getCostmap();
             
+            // The following code is outcommented due to the set parameters service.
+            // Service files exist, but the service was never implemented.
+            // This resulted in some misconception.
+            /*
             // Get costmap dimensions
             width_ = costmap_->getSizeInCellsX();
             height_ = costmap_->getSizeInCellsY();
@@ -70,7 +65,6 @@ namespace gp_interface {
             }
             
             // Configure service client
-            //ros::init();
             ros::NodeHandle nh;
             ros::ServiceClient client = nh.serviceClient<navfn::SetCostmap>("/global_planner/costmap/set_parameters");
             
@@ -79,20 +73,6 @@ namespace gp_interface {
             srv.request.costs = costs_;
             srv.request.height = height_;
             srv.request.width = width_;
-
-            // This service does not exist yet.
-            /*
-            // Call service
-            if(client.call(srv))
-            {
-                ROS_INFO("GPInterface succesfully performed SetCostmap for navfn");
-            }
-            else
-            {
-                ROS_ERROR("GPInterface failed to perform SetCostmap for navfn");
-            }
-            
-            initialized_ = true; 
             */
         }
         else
@@ -102,23 +82,10 @@ namespace gp_interface {
     }
 
     bool GPInterface::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan)
-    {
-        /*  MakeNavPlan.srv
-
-        geometry_msgs/PoseStamped start
-        geometry_msgs/PoseStamped goal
-        ---
-
-        uint8 plan_found
-        string error_message
-        
-        # if plan_found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal
-        geometry_msgs/PoseStamped[] path
-        */
-        
+    {    
         // Create service client
         ros::NodeHandle n;
-        //ros::ServiceClient client = n.serviceClient<navfn::MakeNavPlan>("MakeNavPlan");
+        
         ros::ServiceClient client = n.serviceClient<navfn::MakeNavPlan>("/global_planner/make_plan");
         
         // Create service and set service variables
@@ -158,4 +125,4 @@ namespace gp_interface {
             return false;
         }
     }
-};
+}
